@@ -24,17 +24,17 @@ Network::Network(std::vector<int> layer_sizes) {
     // init the layer transitions
     for(int layer = 0; layer<transition_count; layer++) {
         layer_weights[layer] = Matrix(layer_sizes[layer+1], layer_sizes[layer]);
-        layer_weights[layer].fillRandom(100.);
+        layer_weights[layer].fillRandom(10.);
         
         layer_biases[layer] = Matrix(layer_sizes[layer+1], 1);
-        layer_biases[layer].fillRandom(100.);
+        layer_biases[layer].fillRandom(1.);
     }
     
 }
 
 void Network::deepCopy(Network& dest) const {
     if(layer_sizes.size() != dest.layer_sizes.size()) {
-        fprintf(stderr, "Dimension mismatch when copying network\n");
+        fprintf(stderr, "Dimension mismatch when copying mainNetwork\n");
     }
     for(int layer = 0; layer<transition_count; layer++) {
         dest.layer_sizes[layer] = layer_sizes[layer];
@@ -43,7 +43,7 @@ void Network::deepCopy(Network& dest) const {
     }
 }
 
-Matrix Network::apply(Matrix& in_vec) {
+Matrix Network::apply(const Matrix& in_vec) {
     if(in_vec.n != layer_sizes[0] || in_vec.m != 1) {
         std::cout << "error: Network::apply: dimension mismatch\n";
         exit(1);
@@ -55,9 +55,6 @@ Matrix Network::apply(Matrix& in_vec) {
         result = layer_weights[layer] * result;
         result = result + layer_biases[layer];
         result.applyFunction(activation_func);
-        std::cout << "layer calculated:\n";
-        result.print();
-        std::cout << "\n";
     }
 
     return result;
@@ -75,9 +72,9 @@ void Network::print() const {
 
 }
 
-void Network::adjustSlightly(double relChange) {
+void Network::adjustRandomSlightly(double relChange) {
     for(int layer = 0; layer<transition_count; layer++) {
-        layer_weights[layer].adjustSlightly(relChange);
-        layer_biases[layer].adjustSlightly(relChange);
+        layer_weights[layer].adjustRandomSlightly(relChange);
+        layer_biases[layer].adjustRandomSlightly(relChange);
     }
 }

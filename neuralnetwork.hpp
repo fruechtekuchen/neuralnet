@@ -13,9 +13,9 @@ public:
     Network();
     Network(std::vector<int> layer_sizes);
     void deepCopy(Network& dest) const;
-    Matrix apply(Matrix& in_vec);
+    Matrix apply(const Matrix& in_vec);
     void print() const;
-    void adjustSlightly(double relChange);
+    void adjustRandomSlightly(double relChange);
 
 
 private:

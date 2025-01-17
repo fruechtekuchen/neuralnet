@@ -12,6 +12,7 @@ public:
 
     Matrix();
     Matrix(int n, int m);
+    Matrix(int n, int m, unsigned char *vals);
 
 
     double getElementAt(int i, int j) const;
@@ -20,7 +21,8 @@ public:
     void fillRandom(double max);
     void deepCopy(Matrix& dest) const;
     void applyFunction(double func(double)) const;
-    void adjustSlightly(double relChange);
+    void adjustRandomSlightly(double relChange);
+    double getVectorNorm() const;
 
     double& operator[](size_t index);
     friend Matrix operator+(Matrix const& l, Matrix const& r);

@@ -20,6 +20,15 @@ Matrix::Matrix(int n, int m) {
     this->data = std::make_unique<double[]>(n*m);
 }
 
+Matrix::Matrix(int n, int m, unsigned char *init_data) {
+    this->n = n;
+    this->m = m;
+    this->data = std::make_unique<double[]>(n*m);
+    for(int i=0; i < n*m; i++) {
+        data[i] = double(init_data[i]);
+    }
+}
+
 double Matrix::getElementAt(int i, int j) const {
     return this->data[i*m+j];
 }
@@ -68,15 +77,27 @@ void Matrix::applyFunction(double func(double)) const {
     }
 }
 
-void Matrix::adjustSlightly(double relChange) {
-    std::srand(std::time(0));
-    static std::uniform_real_distribution<double> unif(1.-relChange, 1.+relChange);
-    static std::default_random_engine re;
+void Matrix::adjustRandomSlightly(double relChange) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    static std::uniform_real_distribution<double> unif(-relChange, +relChange);
     for(int i=0; i<n; i++) {
         for(int j=0; j<m; j++) {
-            data[i*m+j] = unif(re)*data[i*m+j];
+            data[i*m+j] += unif(gen)*data[i*m+j];
         }
     }
+}
+
+double Matrix::getVectorNorm() const {
+    double norm = 0;
+    for(int j=0; j<m; j++) {
+        double sum = 0;
+        for(int i=0; i<n; i++) {
+            sum += getElementAt(i,j)*getElementAt(i,j);
+        }
+        if(sum > norm) norm = sum;
+    }
+    return norm;
 }
 
 
