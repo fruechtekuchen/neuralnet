@@ -1,2 +1,2 @@
 cmake --build build
-./build/nn.exe
+./build/train.exe

@@ -129,11 +129,11 @@ Matrix operator*(const Matrix& l, const Matrix& r) {
     Matrix result(l.n, r.m);
     for(int i=0; i<l.n; i++) {
         for(int j=0; j<r.m; j++) {
-            double sum =0;
+            double sum = 0;
             for(int k=0; k<l.m; k++) {
-                sum += l.getElementAt(i,k) * r.getElementAt(k, j);
+                sum += l.data[i*l.m+k] * r.data[k*r.m+j];
             }
-            result.setElementAt(i, j, sum);
+            result.data[i*result.m+j] = sum;
         }
     }
     return result;

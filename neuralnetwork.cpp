@@ -1,11 +1,13 @@
 #include "neuralnetwork.hpp"
 
 #include "matrix.hpp"
+#include "dataset.hpp"
 #include <stdlib.h>
 #include <memory>
 #include <iostream>
 #include <cmath>
 
+#include "timer.hpp"
 
 double activation_func(double d) {
     return 1./(1.+std::exp(-d));
@@ -43,19 +45,25 @@ void Network::deepCopy(Network& dest) const {
     }
 }
 
+// optimize this
 Matrix Network::apply(const Matrix& in_vec) {
     if(in_vec.n != layer_sizes[0] || in_vec.m != 1) {
         std::cout << "error: Network::apply: dimension mismatch\n";
         exit(1);
     }
     Matrix result;
+    Timer timer = Timer(); double time_mult = 0.;
     in_vec.deepCopy(result);
-
+    
     for(int layer=0; layer<transition_count; layer++) {
+        timer.reset();
         result = layer_weights[layer] * result;
+        time_mult += timer.elapsed();
+
         result = result + layer_biases[layer];
         result.applyFunction(activation_func);
     }
+    printf("mult: %f\n", time_mult);
 
     return result;
 }
@@ -77,4 +85,17 @@ void Network::adjustRandomSlightly(double relChange) {
         layer_weights[layer].adjustRandomSlightly(relChange);
         layer_biases[layer].adjustRandomSlightly(relChange);
     }
+}
+
+// optimize this
+double Network::getAverageError(DataSet &dataset) {
+    double err = 0;
+    for(int i=0; i<dataset.sample_count; i++) {
+        DataSample &sample = dataset[i];
+        Matrix vec_out = this->apply(sample.vec);
+        vec_out[sample.label] -= 1;
+        err += vec_out.getVectorNorm()/(double)dataset.sample_count;
+    }
+
+    return err;
 }

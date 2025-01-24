@@ -22,13 +22,11 @@ int main(int argc, char *argv[]) {
 
    double currentError = trainer.getAverageError();
    printf("Err start: %f\n", currentError);
-   for(int i=0; i<100; i++) {
+   for(int i=0; i<10000; i++) {
       trainer.trainOneIteration(0.001 * currentError);
       currentError = trainer.getAverageError();
-      printf("Err %d: %f\n", i, currentError);
-
+      //printf("Err %d: %f\n", i, currentError);
    }
-
 
    std::cout << ":)\n";
 }
@@ -38,7 +36,7 @@ static NetworkTrainer createTrainer(int sample_count) {
    int sample_size = 784; // number of pixels per image
    int output_size = 10;
 
-   std::vector<int> layer_sizes = {sample_size, sample_size, sample_size, output_size};
+   std::vector<int> layer_sizes = {sample_size, sample_size, sample_size/10, output_size};
 
    return NetworkTrainer(layer_sizes, sample_count, "data/train-images-idx3-ubyte", "data/train-labels-idx1-ubyte");
 }
