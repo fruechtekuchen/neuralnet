@@ -145,3 +145,13 @@ Matrix operator*(const Matrix& l, const Matrix& r) {
     }
     return result;
 }
+
+Matrix operator*(double const& scalar, Matrix const& r) {
+    Matrix result(r.n, r.m);
+    for(int i=0; i<r.n; i++) {
+        for(int j=0; j<r.m; j++) {
+            result.data[i*result.m+j] = scalar * r.data[i*result.m+j];
+        }
+    }
+    return result;
+}

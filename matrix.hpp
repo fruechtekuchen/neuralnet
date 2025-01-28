@@ -28,6 +28,7 @@ public:
     double& operator[](size_t index);
     friend Matrix operator+(Matrix const& l, Matrix const& r);
     friend Matrix operator*(Matrix const& l, Matrix const& r);
+    friend Matrix operator*(double const& scalar, Matrix const& r);
     
 };
 
