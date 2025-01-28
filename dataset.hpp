@@ -2,6 +2,7 @@
 
 #include "matrix.hpp"
 #include <memory>
+#include <string>
 
 class DataSample{
 public:

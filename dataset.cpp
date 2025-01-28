@@ -41,11 +41,19 @@ static void check_ifstream_die_if_error(std::ifstream &infile) {
     }
 }
 
+// changes little endian to big endian
+static inline uint32_t bswap32(uint32_t x) {
+    return ((x & 0xFF000000) >> 24) |
+           ((x & 0x00FF0000) >> 8) |
+           ((x & 0x0000FF00) << 8) |
+           ((x & 0x000000FF) << 24);
+}
+
 static int32_t read_and_flip_int32(std::ifstream &infile) {
     int32_t number;
     infile.read(reinterpret_cast<char *>(&number), sizeof(number));
     check_ifstream_die_if_error(infile);
-    number = __builtin_bswap32(number);
+    number = bswap32(number);
     return number;
 }
 
