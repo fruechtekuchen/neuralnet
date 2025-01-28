@@ -37,6 +37,13 @@ void Matrix::setElementAt(int i, int j, double newVal) {
     data[i*m+j] = newVal;
 }
 
+void Matrix::setAllElementsTo(double val) {
+    for(int i=0; i < m*n; i++) {
+        data[i] = val;
+    }
+}
+
+
 void Matrix::print() const {
     for(int i=0; i<n; i++) {
         for(int j=0; j<m; j++) {

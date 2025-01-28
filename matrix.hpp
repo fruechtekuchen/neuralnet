@@ -17,6 +17,7 @@ public:
 
     double getElementAt(int i, int j) const;
     void setElementAt(int i, int j, double newVal);
+    void setAllElementsTo(double val);
     void print() const;
     void fillRandom(double max);
     void deepCopy(Matrix& dest) const;
