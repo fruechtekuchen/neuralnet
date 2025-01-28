@@ -20,6 +20,7 @@ public:
     void print() const;
     void adjustRandomSlightly(double relChange);
     double getAverageError(DataSet &dataset);
+    Matrix getAverageErrorVector(DataSet &dataset);
     void saveAsFile(std::string filename) const;
 
 private:

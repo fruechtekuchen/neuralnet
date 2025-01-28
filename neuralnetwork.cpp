@@ -63,7 +63,7 @@ Matrix Network::apply(const Matrix& in_vec) {
         result = result + layer_biases[layer];
         result.applyFunction(activation_func);
     }
-    printf("mult: %f\n", time_mult);
+    //printf("mult: %f\n", time_mult);
 
     return result;
 }
@@ -95,6 +95,20 @@ double Network::getAverageError(DataSet &dataset) {
         Matrix vec_out = this->apply(sample.vec);
         vec_out[sample.label] -= 1;
         err += vec_out.getVectorNorm()/(double)dataset.sample_count;
+    }
+
+    return err;
+}
+
+Matrix Network::getAverageErrorVector(DataSet &dataset) {
+    Matrix err = Matrix(layer_sizes[layer_sizes.size()-1], 1);
+    err.setAllElementsTo(0.);
+    for(int i=0; i<dataset.sample_count; i++) {
+        DataSample &sample = dataset[i];
+        Matrix vec_out = this->apply(sample.vec);
+        vec_out[sample.label] -= 1;
+        // TODO: optimize with "Matrix += Matrix"
+        err = err + (1./(double)dataset.sample_count * vec_out);
     }
 
     return err;

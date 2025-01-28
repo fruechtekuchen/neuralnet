@@ -15,18 +15,17 @@ static NetworkTrainer createTrainer(int n_samples);
 
 int main(int argc, char *argv[]) {
 
-   int n_samples = 500;
+   int n_samples = 50;
    if(argc > 1) n_samples = atoi(argv[1]);
    printf("Using %d samples.\n", n_samples);
    NetworkTrainer trainer = createTrainer(n_samples);
 
    double currentError = trainer.getAverageError();
    printf("Err start: %f\n", currentError);
-   for(int i=0; i<10000; i++) {
-      trainer.trainOneIteration(0.001 * currentError);
-      currentError = trainer.getAverageError();
-      //printf("Err %d: %f\n", i, currentError);
-   }
+   trainer.trainDarwin(0.001, 10);
+   currentError = trainer.getAverageError();
+   printf("Err end: %f\n", currentError);
+
 
    std::cout << ":)\n";
 }

@@ -1,6 +1,7 @@
 #include "networktrainer.hpp"
 #include "neuralnetwork.hpp"
 #include "dataset.hpp"
+#include "matrix.hpp"
 #include <vector>
 #include <string>
 #include <iostream>
@@ -17,7 +18,7 @@ NetworkTrainer::NetworkTrainer(std::vector<int> &layer_sizes, int n_samples, std
 }
 
 
-void NetworkTrainer::trainOneIteration(double relChange) {
+void NetworkTrainer::trainOneIterationDarwin(double relChange) {
     otherNetwork.adjustRandomSlightly(relChange);
     double errMain = mainNetwork.getAverageError(dataset);
     double errOther = otherNetwork.getAverageError(dataset);
@@ -25,6 +26,27 @@ void NetworkTrainer::trainOneIteration(double relChange) {
         otherNetwork.deepCopy(mainNetwork);
     }
 }
+
+void NetworkTrainer::trainDarwin(double relChangeToError, int n_iterations) {
+    double currentError = mainNetwork.getAverageError(dataset);
+    for(int i=0; i<n_iterations; i++) {
+        printf("IT\n");
+        trainOneIterationDarwin(relChangeToError * currentError);
+        currentError = mainNetwork.getAverageError(dataset);
+    }
+}
+
+void NetworkTrainer::trainOneIterationBackprop(double relChange) {
+    // TODO
+    
+}
+void NetworkTrainer::trainBackprop(double relChange, int n_iterations) {
+    for(int i=0; i<n_iterations; i++) {
+        printf("IT\n");
+        trainOneIterationBackprop(relChange);
+    }
+}
+
 
 double NetworkTrainer::getAverageError() {
     return mainNetwork.getAverageError(dataset);
