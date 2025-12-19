@@ -15,10 +15,7 @@ public:
 
     NetworkTrainer(std::vector<int> &layer_sizes, int n_samples, std::string filename_images, std::string filename_labels);
     
-
-    void trainOneIterationDarwin(double relChange);
     void trainDarwin(double relChangeToError, int n_iterations);
-    void trainOneIterationBackprop(double relChange);
     void trainBackprop(double relChangeToError, int n_iterations);
     double getAverageError();
     double getAverageError(Network &mainNetwork);
@@ -26,6 +23,7 @@ public:
 
 private:
     Network otherNetwork;
-
+    void trainOneIterationDarwin(double relChange);
+    void trainOneIterationBackprop(double relChange);
 
 };
