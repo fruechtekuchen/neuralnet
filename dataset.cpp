@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <cstdint>
 
 DataSample::DataSample() {
     this->label = 0;

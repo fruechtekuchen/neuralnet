@@ -21,10 +21,10 @@ int main(int argc, char *argv[]) {
    NetworkTrainer trainer = createTrainer(n_samples);
 
    double currentError = trainer.getAverageError();
-   printf("Err start: %.17gf\n", currentError);
-   trainer.trainDarwin(0.001, 10);
+   printf("Err start: %.17g\n", currentError);
+   trainer.trainDarwin(0.001, 150);
    currentError = trainer.getAverageError();
-   printf("Err end: %.17gf\n", currentError);
+   printf("Err end: %.17g\n", currentError);
 
 
    std::cout << ":)\n";
